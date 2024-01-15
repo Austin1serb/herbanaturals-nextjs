@@ -1,0 +1,274 @@
+.app-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.shop-arrow {
+    margin: -5px;
+    font-size: 28px;
+    transform: translateY(3px);
+}
+
+.nav-link {
+    z-index: 1000;
+    font-size: 16px;
+    font-weight: 400;
+    font-family: 'Poppins', sans-serif;
+    color: #282F48;
+    text-decoration: none;
+    transition: color 0.3s ease-in-out;
+    border: none;
+
+}
+
+.nav-link:hover {
+    color: #FE6F49;
+
+}
+
+.menu-icon {
+    color: #282F48;
+    transition: color 0.3s ease;
+}
+
+.menu-icon:hover {
+    transition: color 0.3s ease;
+    color: #FE6F49;
+
+}
+
+.brand-icon {
+    height: 80px;
+    width: auto;
+    margin-left: -40px;
+    margin-right: -60px;
+    margin-top: 10px;
+}
+
+
+
+@media (max-width: 450px) {
+    .brand-icon {
+
+
+        height: 60px;
+    }
+
+    .topbar-icon-container {
+        margin-right: 20px;
+    }
+}
+
+@media (max-width: 355px) {
+    .brand-icon {
+
+
+        margin-left: -55px;
+    }
+
+    .topbar-icon-container {
+        margin-right: -10px;
+    }
+}
+
+
+
+@media (max-width: 315px) {
+    .brand-icon {
+        height: 50px;
+        margin-left: -40px;
+    }
+
+    .topbar-icon-container {
+        margin-right: -20px;
+    }
+
+    .nav-link {
+        margin-left: -10px;
+    }
+}
+
+@media(max-width:270px) {
+    .brand-icon {
+        display: none;
+    }
+
+    .brand-icon-small {
+        height: 80px;
+        width: auto;
+        margin-left: -30px;
+        margin-right: -30px;
+    }
+}
+
+@media(min-width:270px) {
+    .brand-icon-small {
+        display: none;
+    }
+}
+
+/* CART CSS */
+
+@keyframes shake {
+    0% {
+        transform: translateX(0);
+    }
+
+    20% {
+        transform: translateX(-5px);
+    }
+
+    40% {
+        transform: translateX(5px);
+    }
+
+    60% {
+        transform: translateX(-5px);
+    }
+
+    80% {
+        transform: translateX(5px);
+    }
+
+    100% {
+        transform: translateX(0);
+    }
+}
+
+.shake-animation {
+    animation: shake 0.5s linear;
+}
+
+
+.textareacart {
+    height: 65px;
+    width: 90%;
+
+
+}
+
+
+@media (max-width: 600px) {
+    .textareacart {
+        margin-left: 0px;
+        width: 80%;
+        height: 45px;
+    }
+}
+
+
+
+.box-relative {
+    position: relative;
+    cursor: pointer;
+}
+
+.nav-link {
+    margin-right: 2px;
+    position: relative;
+    text-decoration: none;
+    margin-right: 15px;
+    /* This is assumed as the component was a Link */
+}
+
+.nav-link:hover {
+    color: #FE6F49;
+}
+
+
+.brand-icon:hover {
+    animation: wave 2s ease infinite;
+}
+
+@keyframes wave {
+    0% {
+        transform: translateY(0);
+
+    }
+
+    10% {}
+
+    50% {
+        filter: hue-rotate(180deg);
+        transform: scale(1.1);
+    }
+
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.dropdown-box {
+    height: 10px;
+    z-index: 9999999;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(240px);
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s ease;
+    position: absolute;
+    /* This is necessary to move it below the 'Shop' link */
+    top: 53.5px;
+    /* This positions it right below the 'Shop' link */
+    left: -295px;
+    width: 100vw;
+    /* Full width of the screen */
+}
+
+.dropdown-separation {
+    z-index: 9999999;
+    background-color: transparent;
+    transform: translate(190px);
+    height: 29px;
+    margin-top: -30.5px;
+    width: 280px;
+
+}
+
+@media (max-width:1000px) {
+    .dropdown-box {
+
+        left: -295px;
+
+
+    }
+
+}
+
+
+
+.box-relative:hover .dropdown-box {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+
+}
+
+
+.dropdown-box-mobile {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(60px);
+    /* Adjust if needed */
+    transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+    position: absolute;
+    top: 80px;
+    left: 0;
+    width: 100vw;
+    z-index: 100;
+
+}
+
+.dropdown-visible {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0px);
+}
+
+@media (max-width:600px) {
+    .dropdown-box-mobile {
+        position: absolute;
+
+        left: 0px;
+    }
+}

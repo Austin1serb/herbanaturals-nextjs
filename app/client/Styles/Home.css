@@ -1,0 +1,340 @@
+.home-container {
+    font-family: 'Playfair Display', serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+
+}
+
+.left-content {
+
+    z-index: 1;
+    flex: 1;
+    background-color: #EDF8FE;
+    padding: 20px;
+    text-align: center;
+    width: 500px;
+    height: 326px;
+    margin-left: 20px;
+
+
+}
+
+.colored-square {
+    transform: translate(0px, 70px);
+    height: 200px;
+
+}
+
+
+.colored-square h1 {
+    color: #282F48;
+    margin-bottom: 10px;
+    font-weight: 100;
+
+}
+
+
+.colored-square-button {
+    border-radius: 0;
+    background-color: #282F48;
+    color: #FFFFFF;
+    padding: 20px 40px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    margin-top: 20px;
+}
+
+
+.bottom-box {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.bottom-box-button1 button {
+    font-size: 14px;
+    text-decoration: none;
+    border-radius: 0;
+    background-color: #282F48;
+    color: #FFFFFF;
+    padding: 20px 40px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+    height: 57px;
+
+}
+
+.bottom-box-button2 button {
+    font-size: 14px;
+    text-decoration: none;
+    height: 57px;
+    border-radius: 0;
+    border: 2px solid #282F48;
+    border-color: #282F48;
+    background-color: #ffffff;
+    color: #282F48;
+    padding: 19px 30px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+
+
+.bottom-box-button1 button:hover {
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+    background-color: #FE6F49;
+}
+
+.bottom-box-button2 button:hover {
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+    background-color: #282F48;
+    color: #FFFFFF;
+}
+
+.colored-square-button:hover {
+    background-color: #FE6F49;
+}
+
+.right-content {
+    background-color: #F4CDAA;
+    margin-left: -200px;
+    margin-right: 20px;
+    min-width: 350px;
+}
+
+.image-container {
+    background-color: #F4CDAA;
+    /* Placeholder color */
+    width: 665px;
+    /* Same as the image */
+    height: 665px;
+    /* Same as the image */
+    overflow: hidden;
+    /* To keep everything neat */
+    position: relative;
+    /* For positioning the slide-in effect */
+}
+
+.right-content img {
+    border: 0.1px solid black;
+    height: auto;
+    /* Maintain aspect ratio */
+    transform: translateX(100%);
+    /* Start from the left */
+    animation: slideIn 2s forwards;
+    animation-delay: 1s;
+    /* Animation to slide in */
+    width: 665px;
+
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}
+
+@media (max-width: 938px) {
+    .image-container {
+
+        width: 100%;
+    }
+
+
+    .left-content {
+
+        animation: slideInFromTop 2s forwards;
+        width: 80%;
+    }
+
+
+
+    .home-container {
+        flex-direction: column-reverse;
+        width: 95%;
+    }
+
+    .right-content {
+        margin: 0 auto;
+        width: 100%;
+        margin-left: 20px;
+    }
+
+    .right-content img {
+        width: 100%;
+        min-width: 200px;
+        height: auto;
+    }
+
+
+
+    .bottom-box {
+        display: inline;
+    }
+
+    .bottom-box button {
+        margin: 5px;
+        width: 300px;
+    }
+
+
+
+    .colored-square {
+
+        padding: 50px 0px 10px 0px;
+        transform: none;
+        display: inherit;
+    }
+
+    .home-list-container {
+        margin-left: -15px;
+        min-width: 400px;
+    }
+}
+
+@media (max-width: 720px) {
+    .image-container {
+        height: 500px;
+    }
+}
+
+@media (max-width: 660px) {
+    .left-content {
+        animation: slideInFromTopMobile 1.5s forwards;
+        width: 70%;
+        margin-left: 40px;
+    }
+
+    .image-container {
+        height: 400px;
+    }
+}
+
+@media (max-width: 660px) {
+    .image-container {
+        height: 350px;
+    }
+}
+
+@media (max-width: 370px) {
+    .right-content {
+        margin-left: 10px;
+    }
+
+}
+
+.li-icon2 {
+    color: #FE6F49;
+
+    transition: color 0.3s ease;
+}
+
+.li-icon1,
+.li-icon3,
+.li-icon4,
+.li-icon6 {
+    color: #FE6F49;
+
+    transition: color 0.3s ease;
+}
+
+
+.ListItem1 {
+    border-top: 0.1px solid gray;
+
+
+}
+
+.ListItem1:hover .li-icon1,
+.ListItem1:hover .li-icon2,
+.ListItem1:hover .li-icon3,
+.ListItem1:hover .li-icon4,
+.ListItem1:hover .li-icon6 {
+    transition: color 0.3s ease;
+    color: #282F48;
+    /* Change the color on hover (you can use any color you want) */
+}
+
+.ListItem1:hover .icon5 path {
+    transition: stroke 0.3s ease;
+    stroke: #282F48;
+}
+
+.icon5 path {
+    transition: stroke 0.3s ease;
+    stroke: #FE6F49;
+}
+
+
+
+.icon5 {
+    font-size: x-large;
+}
+
+
+
+
+.list-home:hover .icon11 path {
+    transition: stroke 0.3s ease;
+    stroke: #282F48;
+}
+
+/* CSS */
+
+/* Initial positions */
+.animated-left {
+
+
+    transition: transform 0.5s ease, opacity .5s ease;
+}
+
+/* Keyframes animation */
+@keyframes slideInFromLeft {
+    0% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Keyframes animation */
+@keyframes slideInFromTop {
+    0% {
+        transform: translateY(-1000px);
+        opacity: 0.2;
+    }
+
+    100% {
+        transform: translateY(-500px);
+        opacity: 0.95;
+    }
+}
+
+@keyframes slideInFromTopMobile {
+    0% {
+        transform: translateY(-1000px);
+        opacity: 0.2;
+    }
+
+    100% {
+        transform: translateY(-110%);
+        opacity: 0.95;
+    }
+}
+
+/* Apply animation to elements */
+.slide-in {
+    animation: slideInFromLeft 1s cubic-bezier(0.4, 0, 1, 1);
+}

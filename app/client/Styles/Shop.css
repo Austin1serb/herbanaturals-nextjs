@@ -1,0 +1,92 @@
+.shop-img {
+    transition: transform 0.3s ease-in-out;
+    object-fit: cover;
+    z-index: 0;
+
+}
+
+.shop-img:hover {
+    transform: scale(1.1);
+    cursor: pointer;
+
+}
+
+.cart-img1 {
+    transition: transform 0.3s ease;
+    border: 0.1px solid black;
+    border-radius: 5px;
+    background-color: white;
+
+}
+
+.cart-img1:hover {
+    transition: transform 0.3s ease;
+    transform: scale(1.05);
+}
+
+
+.shop-name {
+    text-align: center;
+    z-index: 1;
+
+}
+
+.shop-price {}
+
+.shop-button-container {
+    margin-top: 10px;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.shop-button-cart {
+    border-radius: 0px;
+    width: 140px;
+    height: 45px;
+
+}
+
+.shop-button-view {
+    border-radius: 0;
+    width: 140px;
+    height: 45px;
+}
+
+
+
+
+
+@keyframes slideInFromBottomShop {
+    from {
+        opacity: 0;
+
+    }
+
+    to {
+        opacity: 1;
+
+    }
+}
+
+.product-slide-in-shop {
+    opacity: 0;
+    animation: slideInFromBottomShop 0.6s ease-out forwards;
+}
+
+.animation-trigger {
+    visibility: hidden;
+    animation: triggerAnimation 0.01s;
+}
+
+@keyframes triggerAnimation {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
