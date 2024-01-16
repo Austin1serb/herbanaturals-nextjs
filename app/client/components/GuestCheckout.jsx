@@ -1,10 +1,10 @@
 import React from 'react';
 import { v4 as uuidv4 } from 'uuid';
-import { useNavigate } from 'react-router-dom';
 import { Paper, Typography, Button, CircularProgress } from '@mui/material';
+import { usePathname } from 'next/navigation';
 
 const GuestCheckoutPage = () => {
-    const navigate = useNavigate();
+    const navigate = usePathname();
     const [loading, setLoading] = React.useState(false);
 
     const handleGuestCheckout = () => {

@@ -1,13 +1,18 @@
 
-import '../Styles/Shop.css'
+import '../../app/client/Styles/Shop.css'
 import React, { useCallback, useEffect, useState } from 'react';
 import { Box, Typography, TextField, Button, Grid, Skeleton, InputAdornment, IconButton, Snackbar, Alert, CircularProgress } from '@mui/material';
 import axios from 'axios';
-import { useCart } from '../components/CartContext.js';
-import { Link, useLocation } from 'react-router-dom';
+import { useCart } from '../../app/client/components/CartContext.jsx';
+import { useRouter } from 'next/router';
+import Link from 'next/link';
+import dynamic from 'next/dynamic';
+import Head from 'next/head';
 
-
-const QuickView = React.lazy(() => import('../components/QuickView'));
+const QuickView = dynamic(() => import('../../app/client/components/QuickView'), {
+    loading: () => <CircularProgress />, // Optional loading placeholder
+    ssr: false, // This component will be loaded client-side only
+});
 
 const ProductSkeleton = ({ count }) => (
 
@@ -39,10 +44,7 @@ const ProductSkeleton = ({ count }) => (
 
 
 const Shop = () => {
-    useEffect(() => {
-        document.title = "Shop at Herba Natural - Explore Koi, Beezbee, Wyld Products and More";
-        document.querySelector('meta[name="description"]').setAttribute("content", "Browse Herba Natural's online store for the finest CBD products. Featuring brands like Koi, Beezbee, and Wyld with a variety of CBD oils, edibles, and topicals.");
-    }, []);
+
 
 
     const [products, setProducts] = useState([]);
@@ -55,7 +57,7 @@ const Shop = () => {
     const pageSize = 12; // Adjust the number of products per page as needed
     const { addToCart } = useCart();
     const [totalProducts, setTotalProducts] = useState(0);
-    const location = useLocation();
+    const location = useRouter();
     const queryParams = new URLSearchParams(location.search);
     const [filter, setFilter] = useState('');
     const [snackbarOpen, setSnackbarOpen] = useState(false);
@@ -241,154 +243,160 @@ const Shop = () => {
         justifyContent: 'space-between'
     }
     return (
-        <Box className="shop" sx={{ padding: '20px', mt: 10 }}>
-            <Snackbar
-                open={snackbarOpen}
-                autoHideDuration={6000}
-                sx={{ mt: 10 }}
-                onClose={() => setSnackbarOpen(false)}
-                anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+        <>
+            <Head>
+                <title>Shop at Herba Natural - Explore Products</title>
+                <meta name="description" content="Browse Herba Natural's online store for the finest products." />
+            </Head>
 
-            >
-                <Alert onClose={() => setSnackbarOpen(false)} sx={{ width: '100%' }}>
-                    Enjoy free shipping on all orders over $50!
-                </Alert>
-            </Snackbar>
+            <Box className="shop" sx={{ padding: '20px', mt: 10 }}>
+                <Snackbar
+                    open={snackbarOpen}
+                    autoHideDuration={6000}
+                    sx={{ mt: 10 }}
+                    onClose={() => setSnackbarOpen(false)}
+                    anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
 
-            {/* Display the current filter */}
-            <Box sx={{ mb: 4 }}>
-                <Link to="/shop" style={{ textDecoration: 'none' }}>
-                    <Typography variant="body1" component="h1" >
-                        SHOP
-                    </Typography>
-                </Link>
-                {filter && (
-                    <div style={{ marginLeft: '10px' }}>
+                >
+                    <Alert onClose={() => setSnackbarOpen(false)} sx={{ width: '100%' }}>
+                        Enjoy free shipping on all orders over $50!
+                    </Alert>
+                </Snackbar>
 
-                        <Typography variant="body1" component="span" > {' > '} </Typography>
-                        <Link to={`/shop?filter=${filter}`} style={{ textDecoration: 'none' }}>
-                            <Typography variant="body1" component="span" >
-                                {filter.toUpperCase()}
-                            </Typography>
-                        </Link>
-                    </div>
-                )}
-            </Box>
-            <Box mb={4}>
-                <TextField
-                    name='searchBar'
-                    autoCorrect="false"
-                    autoComplete="off"
-                    autoCapitalize="off"
-                    id='searchBar'
-                    InputProps={{
-                        startAdornment: (
-                            <InputAdornment position="start" >
-                                <IconButton
-                                    name='magnifying-icon'
-                                    id='magnifying-icon'
-                                    aria-label="magnifying-icon"
-                                    sx={{
+                {/* Display the current filter */}
+                <Box sx={{ mb: 4 }}>
+                    <Link href="/shop" style={{ textDecoration: 'none' }}>
+                        <Typography variant="body1" component="h1" >
+                            SHOP
+                        </Typography>
+                    </Link>
+                    {filter && (
+                        <div style={{ marginLeft: '10px' }}>
 
-                                        transition: 'opacity 0.3s', // Add opacity transition
-
-                                    }}
-                                >
-                                    {loadingSearch ?
-                                        <CircularProgress size={25} /> :
-                                        <svg
-                                            name='magnifying-icon-svg'
-                                            id='magnifying-icon-svg'
-                                            aria-label="magnifying-icon-svg"
-                                            fill='#0F75E0'
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            height='20'
-                                            viewBox="0 0 512 512"
-                                        >
-                                            <path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" />
-                                        </svg>}
-                                </IconButton>
-
-                            </InputAdornment>
-                        ),
-                    }}
-                    label={`Search ${!!filter ? filter.toUpperCase() : 'Products'}`}
-                    variant="outlined"
-                    value={searchTerm}
-                    onChange={handleSearchChange}
-                    fullWidth
-                />
-            </Box>
-
-
-
-            {/* Products Grid */}
-            {loading ? ( // Check if products are loading
-                <Grid container spacing={3}>
-                    <ProductSkeleton count={pageSize} />
-                </Grid>
-            ) : ( // Render products when not loading
-                <Grid container spacing={3} >
-                    {products && products.length === 0 ? ( // No products found
-
-                        <Typography ml={5} variant="h5">No products found</Typography>
-
-                    ) : (null)}
-
-                    {products.map((product, index) => (
-
-                        <Grid item xs={12} sm={6} md={4} key={product._id} style={{ animationDelay: `${index * 0.2}s` }} className="product-slide-in-shop">
-                            <div style={productStyles}>
-
-                                <img
-                                    className="shop-img"
-                                    src={`${product.imgSource[0].url}`}
-                                    alt={product.name}
-                                    height="150"
-                                    width="150"
-
-                                />
-
-
-                                <Typography sx={{ fontWeight: 100, fontSize: 14 }} className='shop-name' mt={2}>{product.name}</Typography>
-                                <Typography variant="subtitle1" className='shop-brand' sx={{ fontSize: 12, fontWeight: 100, color: 'black' }}>{product.brand}</Typography>
-                                <Typography variant="subtitle2" sx={{ fontWeight: 100, fontSize: 16 }} className='shop-price'>${product.price.toFixed(2)}</Typography>
-
-                                <Box className='shop-button-container'>
-                                    <Button variant="outlined" className='shop-button-cart' sx={{ border: 1, borderRadius: 0, letterSpacing: 2, fontSize: 12, color: 'white', backgroundColor: '#283047', borderColor: '#283047', borderWidth: 1.5, transition: 'all 0.3s', '&:hover': { backgroundColor: '#FE6F49', color: 'white', borderColor: '#FE6F49', transform: 'scale(1.05)' } }} onClick={() => addToCart(product)}>
-                                        Add to Cart
-                                    </Button>
-                                    <Button variant="outlined" className='shop-button-view' sx={{ border: 1, borderRadius: 0, letterSpacing: 2, fontSize: 12, color: '#283047', backgroundColor: 'white', borderColor: '#283047', borderWidth: 1.5, transition: 'all 0.3s', '&:hover': { backgroundColor: '#283047', color: 'white', transform: 'scale(1.05)' } }} onClick={() => {
-                                        setQuickViewProduct(product._id);
-                                        setQuickViewOpen(true)
-                                    }}>Quick View</Button>
-                                </Box>
-
-                            </div>
-
-                        </Grid>
-                    ))}
-                    {/* Display skeletons if more products are to be loaded or loading more products */}
-
-                    {(loadingMore) && (
-
-                        <CircularProgress />
+                            <Typography variant="body1" component="span" > {' > '} </Typography>
+                            <Link href={`/shop?filter=${filter}`} style={{ textDecoration: 'none' }}>
+                                <Typography variant="body1" component="span" >
+                                    {filter.toUpperCase()}
+                                </Typography>
+                            </Link>
+                        </div>
                     )}
+                </Box>
+                <Box mb={4}>
+                    <TextField
+                        name='searchBar'
+                        autoCorrect="false"
+                        autoComplete="off"
+                        autoCapitalize="off"
+                        id='searchBar'
+                        InputProps={{
+                            startAdornment: (
+                                <InputAdornment position="start" >
+                                    <IconButton
+                                        name='magnifying-icon'
+                                        id='magnifying-icon'
+                                        aria-label="magnifying-icon"
+                                        sx={{
+
+                                            transition: 'opacity 0.3s', // Add opacity transition
+
+                                        }}
+                                    >
+                                        {loadingSearch ?
+                                            <CircularProgress size={25} /> :
+                                            <svg
+                                                name='magnifying-icon-svg'
+                                                id='magnifying-icon-svg'
+                                                aria-label="magnifying-icon-svg"
+                                                fill='#0F75E0'
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                height='20'
+                                                viewBox="0 0 512 512"
+                                            >
+                                                <path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z" />
+                                            </svg>}
+                                    </IconButton>
+
+                                </InputAdornment>
+                            ),
+                        }}
+                        label={`Search ${!!filter ? filter.toUpperCase() : 'Products'}`}
+                        variant="outlined"
+                        value={searchTerm}
+                        onChange={handleSearchChange}
+                        fullWidth
+                    />
+                </Box>
 
 
-                </Grid>
-            )}
 
-            <QuickView
-                productId={quickViewProduct}
-                open={quickViewOpen}
-                handleClose={() => setQuickViewOpen(false)}
-                products={products} // Pass the products to QuickView
-                getRelatedProducts={getRelatedProducts} // Pass the function to get related products
-            />
+                {/* Products Grid */}
+                {loading ? ( // Check if products are loading
+                    <Grid container spacing={3}>
+                        <ProductSkeleton count={pageSize} />
+                    </Grid>
+                ) : ( // Render products when not loading
+                    <Grid container spacing={3} >
+                        {products && products.length === 0 ? ( // No products found
 
-        </Box>
+                            <Typography ml={5} variant="h5">No products found</Typography>
 
+                        ) : (null)}
+
+                        {products.map((product, index) => (
+
+                            <Grid item xs={12} sm={6} md={4} key={product._id} style={{ animationDelay: `${index * 0.2}s` }} className="product-slide-in-shop">
+                                <div style={productStyles}>
+
+                                    <img
+                                        className="shop-img"
+                                        src={`${product.imgSource[0].url}`}
+                                        alt={product.name}
+                                        height="150"
+                                        width="150"
+
+                                    />
+
+
+                                    <Typography sx={{ fontWeight: 100, fontSize: 14 }} className='shop-name' mt={2}>{product.name}</Typography>
+                                    <Typography variant="subtitle1" className='shop-brand' sx={{ fontSize: 12, fontWeight: 100, color: 'black' }}>{product.brand}</Typography>
+                                    <Typography variant="subtitle2" sx={{ fontWeight: 100, fontSize: 16 }} className='shop-price'>${product.price.toFixed(2)}</Typography>
+
+                                    <Box className='shop-button-container'>
+                                        <Button variant="outlined" className='shop-button-cart' sx={{ border: 1, borderRadius: 0, letterSpacing: 2, fontSize: 12, color: 'white', backgroundColor: '#283047', borderColor: '#283047', borderWidth: 1.5, transition: 'all 0.3s', '&:hover': { backgroundColor: '#FE6F49', color: 'white', borderColor: '#FE6F49', transform: 'scale(1.05)' } }} onClick={() => addToCart(product)}>
+                                            Add to Cart
+                                        </Button>
+                                        <Button variant="outlined" className='shop-button-view' sx={{ border: 1, borderRadius: 0, letterSpacing: 2, fontSize: 12, color: '#283047', backgroundColor: 'white', borderColor: '#283047', borderWidth: 1.5, transition: 'all 0.3s', '&:hover': { backgroundColor: '#283047', color: 'white', transform: 'scale(1.05)' } }} onClick={() => {
+                                            setQuickViewProduct(product._id);
+                                            setQuickViewOpen(true)
+                                        }}>Quick View</Button>
+                                    </Box>
+
+                                </div>
+
+                            </Grid>
+                        ))}
+                        {/* Display skeletons if more products are to be loaded or loading more products */}
+
+                        {(loadingMore) && (
+
+                            <CircularProgress />
+                        )}
+
+
+                    </Grid>
+                )}
+
+                <QuickView
+                    productId={quickViewProduct}
+                    open={quickViewOpen}
+                    handleClose={() => setQuickViewOpen(false)}
+                    products={products} // Pass the products to QuickView
+                    getRelatedProducts={getRelatedProducts} // Pass the function to get related products
+                />
+
+            </Box>
+        </>
     );
 }
 

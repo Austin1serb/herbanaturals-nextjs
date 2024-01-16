@@ -39,10 +39,10 @@ const Footer = () => {
                         </Typography>
                         <div className='footer-contact-container'>
 
-                            <ul style={{ fontSize: 14, listStyle: 'none', marginTop: 10 }}>
-                                <li style={{ fontFamily: "sans-serif" }}>Contact: Customerservices@herbanaturalco.com</li>
 
-                            </ul>
+                                <p style={{ fontFamily: "sans-serif" }}>Contact: Customerservices@herbanaturalco.com</p>
+
+                   
                         </div>
                     </Box>
                     <div>

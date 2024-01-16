@@ -19,11 +19,18 @@ import { useCart } from './CartContext.jsx';
 import { useAuth } from './Utilities/useAuth';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
+import dynamic from 'next/dynamic';
 
+const Cart = dynamic(() => import('./Cart'), {
+  loading: () => <CircularProgress />, // Optional loading component
+  ssr: false // Set to true if you want server-side rendering for this component
+});
 
-
-const Cart = React.lazy(() => import('./Cart'));
-const DropdownMenu = React.lazy(() => import('./DropDownMenu'));
+const DropdownMenu = dynamic(() => import('./DropDownMenu'), {
+  loading: () => <CircularProgress />, // Optional loading component
+  ssr: true // Set to true if you want server-side rendering for this component
+});
 
 
 const TopBar = () => {
@@ -42,6 +49,7 @@ const TopBar = () => {
     const menuIconRef = useRef(null);
     const closeIconRef = useRef(null);
     const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+    const router = useRouter();
 
 
     useEffect(() => {
@@ -111,7 +119,7 @@ const TopBar = () => {
     };
     const handleLogout = () => {
         logout();
-
+        router.push('/');
     };
     const handleMobileMenuToggle = () => {
         setMobileDrawerOpen(prev => !prev); // toggles the value
@@ -236,9 +244,9 @@ const TopBar = () => {
 
 
                     <Box className={`dropdown-box-mobile ${mobileDrawerOpen ? 'dropdown-visible' : ''}`} ref={dropdownRef}>
-                        <Suspense fallback={<CircularProgress />}>
+                      
                             <DropdownMenu onLinkClick={handleMobileMenuClose} />
-                        </Suspense>
+              
 
                     </Box>
                     <Typography variant="h6" sx={{ flexGrow: 1, display: "flex", alignItems: 'center' }}>
